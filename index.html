@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlickVPN | Fast, Secure & Anonymous Next-Gen VPN Service</title>
+    
+    <!-- Meta SEO -->
+    <meta name="description" content="Protect your digital identity with FlickVPN. Post-quantum encryption, ultra-fast 10Gbps servers, zero logging, and effortless online security across all your devices.">
+    <meta name="keywords" content="FlickVPN, VPN, Privacy, Security, Quantum Encryption, Zero Logs, Fast VPN, WireGuard">
+    <link rel="canonical" href="https://flickvpn.com/">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://flickvpn.com/">
+    <meta property="og:title" content="FlickVPN | Fast, Secure & Anonymous VPN Service">
+    <meta property="og:description" content="Shield your privacy instantly with post-quantum security and unlimited high-speed browsing.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FlickVPN | Next-Gen Cyber Defense">
+    <meta name="twitter:description" content="Instant anonymity, military-grade encryption, and zero logging across all your devices.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* ==========================================================================
+           1. CSS VARIABLES & CORE RESET
+           ========================================================================== */
+        :root {
+            --bg-dark: #030712;
+            --bg-card: rgba(15, 23, 42, 0.65);
+            --bg-card-hover: rgba(23, 37, 68, 0.85);
+            --border-color: rgba(0, 240, 255, 0.12);
+            --border-glow: rgba(0, 240, 255, 0.45);
+            
+            --accent-cyan: #00f0ff;
+            --accent-blue: #0070f3;
+            --accent-indigo: #6366f1;
+            --accent-purple: #7928ca;
+            --accent-green: #10b981;
+            
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            
+            --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --container-width: 1200px;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 8px;
+            
+            --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+        }
+
+        body {
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ==========================================================================
+           2. UTILITIES & BACKGROUND ANIMATIONS
+           ========================================================================== */
+        .container {
+            width: 100%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue), var(--accent-purple));
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.1s linear;
+        }
+
+        /* Interactive Mouse Glow */
+        .mouse-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 240, 255, 0.07) 0%, rgba(0, 112, 243, 0.03) 45%, rgba(0,0,0,0) 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Aurora Gradient Blobs */
+        .aurora-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .aurora-blob {
+            position: absolute;
+            filter: blur(140px);
+            opacity: 0.35;
+            border-radius: 50%;
+            animation: floatBlob 22s infinite alternate ease-in-out;
+        }
+
+        .blob-1 {
+            top: -5%;
+            left: -10%;
+            width: 55vw;
+            height: 55vw;
+            background: radial-gradient(circle, rgba(0, 240, 255, 0.3) 0%, rgba(0, 112, 243, 0.1) 70%);
+            animation-duration: 18s;
+        }
+
+        .blob-2 {
+            top: 25%;
+            right: -12%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(121, 40, 202, 0.3) 0%, rgba(0, 112, 243, 0.12) 70%);
+            animation-duration: 24s;
+        }
+
+        .blob-3 {
+            bottom: 15%;
+            left: 10%;
+            width: 45vw;
+            height: 45vw;
+            background: radial-gradient(circle, rgba(0, 240, 255, 0.18) 0%, rgba(121, 40, 202, 0.22) 70%);
+            animation-duration: 20s;
+        }
+
+        @keyframes floatBlob {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, 40px) scale(1.08); }
+            100% { transform: translate(-30px, 60px) scale(0.95); }
+        }
+
+        /* Glassmorphism Panel */
+        .glass-panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            transition: var(--transition-smooth);
+        }
+
+        .glass-panel:hover {
+            border-color: var(--border-glow);
+            box-shadow: 0 15px 35px -10px rgba(0, 240, 255, 0.18);
+        }
+
+        /* Typography & Gradients */
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 20%, #a5f3fc 60%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text-purple {
+            background: linear-gradient(135deg, #ffffff 20%, #e9d5ff 60%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Buttons & Conversion UX */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem 2.25rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 99px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+            color: #020617;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.65);
+            color: #000;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            transform: translateY(-3px);
+        }
+
+        /* Section Typography Headers */
+        .section-header {
+            text-align: center;
+            max-width: 780px;
+            margin: 0 auto 4rem auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.45rem 1.1rem;
+            border-radius: 99px;
+            background: rgba(0, 240, 255, 0.08);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-title {
+            font-size: 2.85rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.25rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            line-height: 1.7;
+        }
+
+        /* Scroll Reveal Animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==========================================================================
+           3. NAVIGATION (Focus-Driven & Minimal)
+           ========================================================================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.25rem 0;
+            transition: var(--transition-smooth);
+        }
+
+        .navbar.scrolled {
+            padding: 0.85rem 0;
+            background: rgba(3, 7, 18, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.55rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.03em;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #020617;
+            font-size: 1.25rem;
+            box-shadow: 0 0 18px rgba(0, 240, 255, 0.45);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.2rem;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-link:hover {
+            color: var(--accent-cyan);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 1.25rem;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(3, 7, 18, 0.96);
+            backdrop-filter: blur(20px);
+            padding: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        /* ==========================================================================
+           4. HERO SECTION (High-Converting & Focused Layout)
+           ========================================================================== */
+        .hero {
+            position: relative;
+            padding-top: 11.5rem;
+            padding-bottom: 6.5rem;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .hero-title {
+            font-size: 3.85rem;
+            font-weight: 800;
+            line-height: 1.12;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-guarantee {
+            display: flex;
+            align-items: center;
+            gap: 1.75rem;
+            color: var(--text-dim);
+            font-size: 0.875rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-guarantee span {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .hero-guarantee i {
+            color: var(--accent-cyan);
+        }
+
+        /* Interactive Dashboard Widget Mockup */
+        .hero-visual {
+            position: relative;
+        }
+
+        .dashboard-mockup {
+            padding: 1.75rem;
+            background: rgba(8, 14, 30, 0.75);
+            border: 1px solid rgba(0, 240, 255, 0.22);
+            border-radius: 24px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 45px rgba(0, 240, 255, 0.12);
+            position: relative;
+        }
+
+        .mockup-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 1.5rem;
+        }
+
+        .window-dots {
+            display: flex;
+            gap: 0.45rem;
+        }
+
+        .dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.18);
+            padding: 1.1rem 1.35rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+        }
+
+        .status-info {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            box-shadow: 0 0 12px var(--accent-cyan);
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(0, 240, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 240, 255, 0); }
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 1.1rem;
+            border-radius: 14px;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 0.35rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-value {
+            font-family: var(--font-mono);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        .floating-badge {
+            position: absolute;
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--accent-cyan);
+            padding: 0.85rem 1.35rem;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+            animation: floatBadge 6s infinite ease-in-out;
+        }
+
+        .fb-1 { top: -25px; right: -20px; }
+        .fb-2 { bottom: -25px; left: -20px; animation-delay: -3s; }
+
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* ==========================================================================
+           5. TRUST INDICATORS & PROOF
+           ========================================================================== */
+        .trust-section {
+            padding: 4.5rem 0;
+            position: relative;
+            z-index: 2;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .trust-title {
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1.8px;
+            margin-bottom: 2.5rem;
+            font-weight: 600;
+        }
+
+        .trust-logos {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            opacity: 0.7;
+        }
+
+        .trust-logo {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            filter: grayscale(100%);
+            transition: var(--transition-smooth);
+        }
+
+        .trust-logo:hover {
+            filter: grayscale(0%);
+            color: var(--text-main);
+            opacity: 1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 4.5rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2.25rem 1.25rem;
+        }
+
+        .stat-number {
+            font-size: 2.85rem;
+            font-weight: 800;
+            font-family: var(--font-mono);
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* ==========================================================================
+           6. WHY USE A VPN
+           ========================================================================== */
+        .features-section {
+            padding: 7.5rem 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: rgba(0, 240, 255, 0.08);
+            border: 1px solid rgba(0, 240, 255, 0.22);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.45rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1.75rem;
+        }
+
+        .feature-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 0.85rem;
+        }
+
+        .feature-desc {
+            color: var(--text-muted);
+            font-size: 0.975rem;
+            line-height: 1.65;
+        }
+
+        /* ==========================================================================
+           7. DEVICE COMPATIBILITY
+           ========================================================================== */
+        .devices-section {
+            padding: 7.5rem 0;
+            position: relative;
+            z-index: 2;
+            background: radial-gradient(circle at center, rgba(0, 112, 243, 0.07) 0%, rgba(0,0,0,0) 70%);
+        }
+
+        .device-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .device-card {
+            padding: 2.25rem 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .device-icon {
+            font-size: 2.75rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1.2rem;
+        }
+
+        .device-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .device-sub {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        /* ==========================================================================
+           8. SECURITY & PRIVACY ARCHITECTURE
+           ========================================================================== */
+        .security-section {
+            padding: 7.5rem 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .sec-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem;
+            margin-top: 2rem;
+        }
+
+        .sec-item {
+            display: flex;
+            gap: 1.1rem;
+            align-items: flex-start;
+        }
+
+        .sec-item-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            color: var(--accent-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 0.2rem;
+        }
+
+        .sec-item-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .sec-item-desc {
+            color: var(--text-muted);
+            font-size: 0.935rem;
+        }
+
+        /* Terminal Display */
+        .terminal-window {
+            background: #02040a;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 1.75rem;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.85);
+        }
+
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 1.25rem;
+            color: var(--text-dim);
+        }
+
+        .terminal-line {
+            margin-bottom: 0.85rem;
+            line-height: 1.55;
+        }
+
+        .t-cyan { color: var(--accent-cyan); }
+        .t-green { color: var(--accent-green); }
+        .t-purple { color: var(--accent-purple); }
+        .t-dim { color: var(--text-dim); }
+
+        /* ==========================================================================
+           9. COMPARISON SECTION
+           ========================================================================== */
+        .comparison-section {
+            padding: 7.5rem 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .comparison-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .comp-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            text-align: left;
+        }
+
+        .comp-table th, .comp-table td {
+            padding: 1.35rem 1.6rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .comp-table th {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            background: rgba(15, 23, 42, 0.85);
+        }
+
+        .comp-table th:first-child {
+            border-top-left-radius: var(--radius-md);
+        }
+
+        .comp-table th:last-child {
+            border-top-right-radius: var(--radius-md);
+        }
+
+        .comp-highlight {
+            background: rgba(0, 240, 255, 0.06) !important;
+            border-left: 1px solid rgba(0, 240, 255, 0.22);
+            border-right: 1px solid rgba(0, 240, 255, 0.22);
+            color: var(--accent-cyan);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .comp-table td {
+            background: rgba(15, 23, 42, 0.45);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .comp-table td.center {
+            text-align: center;
+        }
+
+        .check-icon {
+            color: var(--accent-green);
+            font-size: 1.15rem;
+        }
+
+        .cross-icon {
+            color: #ef4444;
+            font-size: 1.15rem;
+        }
+
+        /* ==========================================================================
+           10. FAQ ACCORDION
+           ========================================================================== */
+        .faq-section {
+            padding: 7.5rem 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .faq-accordion {
+            max-width: 820px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .faq-item {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.6rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-main);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .faq-question:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(23, 37, 68, 0.85);
+        }
+
+        .faq-toggle-icon {
+            font-size: 1rem;
+            color: var(--accent-cyan);
+            transition: transform 0.35s ease;
+        }
+
+        .faq-item.active .faq-toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active .faq-question {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-color: var(--accent-cyan);
+            background: rgba(23, 37, 68, 0.95);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            background: rgba(8, 14, 30, 0.85);
+            border: 1px solid var(--accent-cyan);
+            border-top: none;
+            border-bottom-left-radius: var(--radius-md);
+            border-bottom-right-radius: var(--radius-md);
+            transition: max-height 0.35s cubic-bezier(0, 1, 0, 1), padding 0.35s ease;
+            padding: 0 1.6rem;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 320px;
+            padding: 1.6rem;
+        }
+
+        .faq-answer p {
+            color: var(--text-muted);
+            font-size: 0.975rem;
+            line-height: 1.65;
+        }
+
+        /* ==========================================================================
+           11. FINAL CTA BANNER
+           ========================================================================== */
+        .cta-section {
+            padding: 6.5rem 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-box {
+            padding: 5.5rem 2.5rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.09) 0%, rgba(121, 40, 202, 0.14) 100%);
+            border: 1px solid var(--accent-cyan);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(0, 240, 255, 0.18);
+        }
+
+        .cta-title {
+            font-size: 3.25rem;
+            font-weight: 800;
+            margin-bottom: 1.25rem;
+            letter-spacing: -0.02em;
+        }
+
+        .cta-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 620px;
+            margin: 0 auto 2.5rem auto;
+            line-height: 1.7;
+        }
+
+        /* ==========================================================================
+           12. FOOTER & DISCLOSURE
+           ========================================================================== */
+        .footer {
+            background: #020408;
+            padding: 5.5rem 0 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 3.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-dim);
+            margin-top: 1.2rem;
+            font-size: 0.925rem;
+            max-width: 340px;
+            line-height: 1.65;
+        }
+
+        .footer-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 1.35rem;
+            color: var(--text-main);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+            font-size: 0.925rem;
+            transition: var(--transition-smooth);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .affiliate-disclosure {
+            margin-top: 2.25rem;
+            padding: 1.35rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-sm);
+            font-size: 0.825rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(10px);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.65);
+            transform: translateY(-4px);
+        }
+
+        /* ==========================================================================
+           13. RESPONSIVE BREAKPOINTS (Mobile-First)
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 3.5rem;
+                text-align: center;
+            }
+
+            .hero-content {
+                max-width: 100%;
+            }
+
+            .hero-cta-group, .hero-guarantee {
+                justify-content: center;
+            }
+
+            .grid-3 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .security-grid {
+                grid-template-columns: 1fr;
+                gap: 3.5rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.75rem;
+            }
+
+            .section-title {
+                font-size: 2.15rem;
+            }
+
+            .stats-grid, .device-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-title {
+                font-size: 2.25rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid, .device-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-cta-group {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .fb-1, .fb-2 {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Mouse Glow Follower -->
+    <div class="mouse-glow" id="mouseGlow"></div>
+
+    <!-- Aurora Animated Background -->
+    <div class="aurora-bg">
+        <div class="aurora-blob blob-1"></div>
+        <div class="aurora-blob blob-2"></div>
+        <div class="aurora-blob blob-3"></div>
+    </div>
+
+    <!-- 1. STICKY TRANSPARENT NAVIGATION -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-bolt-lightning"></i>
+                </div>
+                <span>FlickVPN</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#security" class="nav-link">Security Architecture</a>
+                <a href="#devices" class="nav-link">Apps</a>
+                <a href="#comparison" class="nav-link">Why Us</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <a href="https://afflat3c1.com/trk/lnk/3BF8B185-C400-46C9-BA86-8558C9994629/?o=31563&c=918271&a=800075&k=C9386E67C2EEEB8BB47961E8418384D3&l=37878" class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 0.95rem;" target="_blank" rel="noopener">
+                    <span>Get FlickVPN</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#features" class="nav-link mobile-link">Features</a>
+            <a href="#security" class="nav-link mobile-link">Security Architecture</a>
+            <a href="#devices" class="nav-link mobile-link">Apps</a>
+            <a href="#comparison" class="nav-link mobile-link">Why Us</a>
+            <a href="#faq" class="nav-link mobile-link">FAQ</a>
+            <a href="https://afflat3c1.com/trk/lnk/3BF8B185-C400-46C9-BA86-8558C9994629/?o=31563&c=918271&a=800075&k=C9386E67C2EEEB8BB47961E8418384D3&l=37878" class="btn btn-primary" target="_blank" rel="noopener">
+                <span>Start Now</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- 2. FULL-SCREEN HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content fade-up">
+                    <div class="badge">
+                        <i class="fa-solid fa-bolt"></i> Next-Gen Post-Quantum Protocol
+                    </div>
+                    <h1 class="hero-title">
+                        Absolute Privacy. <br>
+                        <span class="gradient-text">In a Single Flick.</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Fortify your digital presence with FlickVPN. Quantum-resistant encryption, ultra-high speed global servers, and audited strict zero-log protection.
+                    </p>
+                    <div class="hero-cta-group">
+                        <a href="https://afflat3c1.com/trk/lnk/3BF8B185-C400-46C9-BA86-8558C9994629/?o=31563&c=918271&a=800075&k=C9386E67C2EEEB8BB47961E8418384D3&l=37878" class="btn btn-primary" target="_blank" rel="noopener">
+                            <span>Protect My Privacy</span>
+                            <i class="fa-solid fa-shield"></i>
+                        </a>
+                        <a href="https://afflat3c1.com/trk/lnk/3BF8B185-C400-46C9-BA86-8558C9994629/?o=31563&c=918271&a=800075&k=C9386E67C2EEEB8BB47961E8418384D3&l=37878" class="btn btn-secondary" target="_blank" rel="noopener">
+                            <span>Try Now</span>
+                        </a>
+                    </div>
+                    <div class="hero-guarantee">
+                        <span><i class="fa-solid fa-circle-check"></i> 30-Day Money Back</span>
+                        <span><i class="fa-solid fa-circle-check"></i> Instant Setup</span>
+                        <span><i class="fa-solid fa-circle-check"></i> 10 Devices Simultaneously</span>
+                    </div>
+                </div>
+
+                <!-- Hero Interactive Dashboard Visual -->
+                <div class="hero-visual fade-up">
+                    <div class="dashboard-mockup glass-panel">
+                        <div class="mockup-header">
+                            <div class="window-dots">
+                                <span class="dot dot-red"></span>
+                                <span class="dot dot-yellow"></span>
+                                <span class="dot dot-green"></span>
+                            </div>
+                            <span style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--text-dim);">flickvpn-core v4.2</span>
+                        </div>
+
+                        <div class="connection-status">
+                            <div class="status-info">
+                                <div class="status-indicator"></div>
+                                <div>
+                                    <div style="font-weight: 700; font-size: 0.95rem;">Encrypted & Protected</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-dim);">IP: 185.220.101.4 (Tokyo, JP)</div>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-lock" style="color: var(--accent-cyan); font-size: 1.25rem;"></i>
+                        </div>
+
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <div class="metric-label">Download Speed</div>
+                                <div class="metric-value">948.5 Mbps</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">Latency</div>
+                                <div class="metric-value">12 ms</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">Encryption</div>
+                                <div class="metric-value">AES-256-GCM</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">Protocol</div>
+                                <div class="metric-value">FlickMesh WireGuard</div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+                            <span style="font-size: 0.75rem; color: var(--accent-green); background: rgba(16, 185, 129, 0.1); padding: 0.25rem 0.75rem; border-radius: 99px; border: 1px solid rgba(16, 185, 129, 0.25);">Kill Switch Active</span>
+                            <span style="font-size: 0.75rem; color: var(--accent-cyan); background: rgba(0, 240, 255, 0.1); padding: 0.25rem 0.75rem; border-radius: 99px; border: 1px solid rgba(0, 240, 255, 0.25);">DNS Leak Protection On</span>
+                        </div>
+                    </div>
+
+                    <!-- Floating Badges -->
+                    <div class="floating-badge fb-1">
+                        <i class="fa-solid fa-microchip" style="color: var(--accent-cyan); font-size: 1.2rem;"></i>
+                        <div>
+                            <div style="font-size: 0.825rem; font-weight: 700;">Post-Quantum Ready</div>
+                            <div style="font-size: 0.725rem; color: var(--text-dim);">NIST Compliant</div>
+                        </div>
+                    </div>
+
+                    <div class="floating-badge fb-2">
+                        <i class="fa-solid fa-user-shield" style="color: var(--accent-purple); font-size: 1.2rem;"></i>
+                        <div>
+                            <div style="font-size: 0.825rem; font-weight: 700;">Audited Zero-Logs</div>
+                            <div style="font-size: 0.725rem; color: var(--text-dim);">PwC Verified</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. TRUST INDICATORS -->
+    <section class="trust-section container">
+        <p class="trust-title">Recognized & Audited By Global Cybersecurity Leaders</p>
+        <div class="trust-logos">
+            <div class="trust-logo"><i class="fa-solid fa-shield-virus"></i> TECHRADAR</div>
+            <div class="trust-logo"><i class="fa-solid fa-laptop-code"></i> WIRED</div>
+            <div class="trust-logo"><i class="fa-solid fa-microchip"></i> FORBES TECH</div>
+            <div class="trust-logo"><i class="fa-solid fa-lock"></i> PCMAG</div>
+            <div class="trust-logo"><i class="fa-solid fa-network-wired"></i> ENGADGET</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card glass-panel fade-up">
+                <div class="stat-number">6,400+</div>
+                <div class="stat-label">RAM-Only Servers Worldwide</div>
+            </div>
+            <div class="stat-card glass-panel fade-up">
+                <div class="stat-number">100Gbps</div>
+                <div class="stat-label">Ultra Broadband Network</div>
+            </div>
+            <div class="stat-card glass-panel fade-up">
+                <div class="stat-number">110+</div>
+                <div class="stat-label">Global Virtual & Physical Locations</div>
+            </div>
+            <div class="stat-card glass-panel fade-up">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Logs Recorded (Strictly Audited)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. WHY USE A VPN -->
+    <section class="features-section container" id="features">
+        <div class="section-header fade-up">
+            <div class="badge">Essential Digital Defense</div>
+            <h2 class="section-title">Why Modern Internet Needs <span class="gradient-text">FlickVPN</span></h2>
+            <p class="section-desc">Traditional networks expose your traffic, location, and sensitive personal data to ISPs, hackers, and automated surveillance networks.</p>
+        </div>
+
+        <div class="grid-3">
+            <div class="feature-card glass-panel fade-up">
+                <div>
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-user-ninja"></i>
+                    </div>
+                    <h3 class="feature-title">Complete Anonymity</h3>
+                    <p class="feature-desc">Mask your IP address and location behind military-grade dynamic proxy tunnels. Prevent advertisers, trackers, and ISPs from profiling you.</p>
+                </div>
+            </div>
+
+            <div class="feature-card glass-panel fade-up">
+                <div>
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-wifi"></i>
+                    </div>
+                    <h3 class="feature-title">Public Wi-Fi Shield</h3>
+                    <p class="feature-desc">Shield your banking credentials, passwords, and emails when connecting to unsecured airport, hotel, or coffee shop networks.</p>
+                </div>
+            </div>
+
+            <div class="feature-card glass-panel fade-up">
+                <div>
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <h3 class="feature-title">Unrestricted Internet</h3>
+                    <p class="feature-desc">Bypass regional restrictions, censorship, and ISP bandwidth throttling. Enjoy seamless 4K/8K streaming from anywhere on Earth.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. PREMIUM FEATURES -->
+    <section class="features-section container">
+        <div class="section-header fade-up">
+            <div class="badge">State-Of-The-Art Tech</div>
+            <h2 class="section-title">Engineered For <span class="gradient-text-purple">Uncompromising Performance</span></h2>
+            <p class="section-desc">Next-generation features designed by veteran cybersecurity engineers for speed, safety, and reliability.</p>
+        </div>
+
+        <div class="grid-3">
+            <div class="feature-card glass-panel fade-up">
+                <div class="feature-icon"><i class="fa-solid fa-server"></i></div>
+                <h3 class="feature-title">100% RAM-Only Servers</h3>
+                <p class="feature-desc">All server infrastructure runs strictly on volatile memory (RAM). No hard drives means zero data persistence; everything vanishes upon reboot.</p>
+            </div>
+
+            <div class="feature-card glass-panel fade-up">
+                <div class="feature-icon"><i class="fa-solid fa-network-wired"></i></div>
+                <h3 class="feature-title">Multi-Hop Double VPN</h3>
+                <p class="feature-desc">Route your traffic through two separate encrypted VPN servers sequentially for an un-traceable layer of security.</p>
+            </div>
+
+            <div class="feature-card glass-panel fade-up">
+                <div class="feature-icon"><i class="fa-solid fa-toggle-on"></i></div>
+                <h3 class="feature-title">Smart Kill Switch</h3>
+                <p class="feature-desc">Automatically cuts all internet traffic if your VPN connection ever drops unexpectedly, preventing accidental IP leaks.</p>
+            </div>
+
+            <div class="feature-card glass-panel fade-up">
+                <div class="feature-icon"><i class="fa-solid fa-bug-slash"></i></div>
+                <h3 class="feature-title">ThreatBlock AD & Malware Killer</h3>
+                <p class="feature-desc">Built-in DNS filter blocks malicious websites, phishing domains, intrusive pop-ups, and trackers at the network level.</p>
+            </div>
+
+            <div class="feature-card glass-panel fade-up">
+                <div class="feature-icon"><i class="fa-solid fa-sitemap"></i></div>
+                <h3 class="feature-title">Split Tunneling</h3>
+                <p class="feature-desc">Choose which apps route through the encrypted VPN tunnel and which apps access the internet directly.</p>
+            </div>
+
+            <div class="feature-card glass-panel fade-up">
+                <div class="feature-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+                <h3 class="feature-title">WireGuard® Next-Gen Protocol</h3>
+                <p class="feature-desc">Lightweight codebase ensuring lightning-fast connections, seamless switching between Wi-Fi and cellular, and minimal battery drain.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. DEVICE COMPATIBILITY -->
+    <section class="devices-section" id="devices">
+        <div class="container">
+            <div class="section-header fade-up">
+                <div class="badge">Universal Protection</div>
+                <h2 class="section-title">One Subscription. <span class="gradient-text">All Your Devices.</span></h2>
+                <p class="section-desc">Native, lightweight applications designed for seamless cross-platform security.</p>
+            </div>
+
+            <div class="device-grid">
+                <div class="device-card glass-panel fade-up">
+                    <i class="fa-brands fa-windows device-icon"></i>
+                    <h3 class="device-name">Windows</h3>
+                    <p class="device-sub">Windows 10 / 11 Native</p>
+                </div>
+                <div class="device-card glass-panel fade-up">
+                    <i class="fa-brands fa-apple device-icon"></i>
+                    <h3 class="device-name">macOS</h3>
+                    <p class="device-sub">Apple Silicon & Intel</p>
+                </div>
+                <div class="device-card glass-panel fade-up">
+                    <i class="fa-brands fa-android device-icon"></i>
+                    <h3 class="device-name">Android</h3>
+                    <p class="device-sub">Smartphones & Tablets</p>
+                </div>
+                <div class="device-card glass-panel fade-up">
+                    <i class="fa-brands fa-app-store-ios device-icon"></i>
+                    <h3 class="device-name">iOS</h3>
+                    <p class="device-sub">iPhone & iPad</p>
+                </div>
+                <div class="device-card glass-panel fade-up">
+                    <i class="fa-brands fa-linux device-icon"></i>
+                    <h3 class="device-name">Linux</h3>
+                    <p class="device-sub">CLI & GUI Options</p>
+                </div>
+                <div class="device-card glass-panel fade-up">
+                    <i class="fa-brands fa-chrome device-icon"></i>
+                    <h3 class="device-name">Browser Extensions</h3>
+                    <p class="device-sub">Chrome, Firefox, Brave</p>
+                </div>
+                <div class="device-card glass-panel fade-up">
+                    <i class="fa-solid fa-tv device-icon"></i>
+                    <h3 class="device-name">Smart TVs</h3>
+                    <p class="device-sub">Android TV, Firestick</p>
+                </div>
+                <div class="device-card glass-panel fade-up">
+                    <i class="fa-solid fa-router device-icon"></i>
+                    <h3 class="device-name">Routers</h3>
+                    <p class="device-sub">Whole-Home Coverage</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. SECURITY & PRIVACY SECTION -->
+    <section class="security-section container" id="security">
+        <div class="security-grid">
+            <div class="fade-up">
+                <div class="badge">Quantum-Proof Cryptography</div>
+                <h2 class="section-title">Encryption Built For <span class="gradient-text">The Next 50 Years</span></h2>
+                <p class="section-desc">
+                    As quantum computing advances, classical RSA and ECC encryption will become vulnerable. FlickVPN integrates post-quantum key exchange algorithms to protect your data today against future decryption threats.
+                </p>
+
+                <div class="sec-list">
+                    <div class="sec-item">
+                        <div class="sec-item-icon"><i class="fa-solid fa-check"></i></div>
+                        <div>
+                            <div class="sec-item-title">AES-256-GCM Encryption</div>
+                            <div class="sec-item-desc">The standard used by military units and top financial institutions globally.</div>
+                        </div>
+                    </div>
+                    <div class="sec-item">
+                        <div class="sec-item-icon"><i class="fa-solid fa-check"></i></div>
+                        <div>
+                            <div class="sec-item-title">Kyber-1024 Quantum Shield</div>
+                            <div class="sec-item-desc">NIST-standardized lattice-based key encapsulation to prevent harvest-now-decrypt-later attacks.</div>
+                        </div>
+                    </div>
+                    <div class="sec-item">
+                        <div class="sec-item-icon"><i class="fa-solid fa-check"></i></div>
+                        <div>
+                            <div class="sec-item-title">Independent Third-Party Audits</div>
+                            <div class="sec-item-desc">Our zero-log policy and infrastructure code are audited annually by Cure53 and PwC.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terminal Visual -->
+            <div class="terminal-window fade-up">
+                <div class="terminal-header">
+                    <span><i class="fa-solid fa-terminal"></i> security-audit.sh</span>
+                    <span>STATUS: SECURE</span>
+                </div>
+                <div class="terminal-line"><span class="t-cyan">$</span> flickvpn-cli status --verbose</div>
+                <div class="terminal-line"><span class="t-dim">[INFO]</span> Initializing Quantum-Resistant Key Exchange...</div>
+                <div class="terminal-line"><span class="t-green">[SUCCESS]</span> Handshake established with CRYSTALS-Kyber-1024</div>
+                <div class="terminal-line"><span class="t-dim">[INFO]</span> Session Cipher: ChaCha20-Poly1305 / AES-256-GCM</div>
+                <div class="terminal-line"><span class="t-purple">[DNS]</span> Private Encrypted Tunnel ACTIVE (0% Leaks)</div>
+                <div class="terminal-line"><span class="t-dim">[LOGS]</span> Local buffer: PURGED | Server memory: VOLATILE RAM</div>
+                <div class="terminal-line"><span class="t-cyan">$</span> ping -c 1 japan.flickvpn.node</div>
+                <div class="terminal-line"><span class="t-green">64 bytes from 185.220.101.4: icmp_seq=1 ttl=64 time=11.8 ms</span></div>
+                <div class="terminal-line" style="margin-top: 1.25rem;"><span class="t-cyan">flickvpn@node-tokyo:~#</span> <span class="status-indicator" style="display:inline-block; width:8px; height:8px;"></span> Protected</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. COMPARISON SECTION -->
+    <section class="comparison-section container" id="comparison">
+        <div class="section-header fade-up">
+            <div class="badge">Clear Advantage</div>
+            <h2 class="section-title">How <span class="gradient-text">FlickVPN</span> Outperforms The Rest</h2>
+            <p class="section-desc">See how we stack up against standard free VPNs and unprotected connections.</p>
+        </div>
+
+        <div class="comparison-table-wrapper glass-panel fade-up">
+            <table class="comp-table">
+                <thead>
+                    <tr>
+                        <th>Security & Speed Feature</th>
+                        <th class="comp-highlight">FlickVPN Premium</th>
+                        <th>Standard Free VPNs</th>
+                        <th>Unprotected Wi-Fi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Quantum-Resistant Encryption</strong></td>
+                        <td class="comp-highlight center"><i class="fa-solid fa-circle-check check-icon"></i> Kyber-1024</td>
+                        <td class="center"><i class="fa-solid fa-circle-xmark cross-icon"></i> None</td>
+                        <td class="center"><i class="fa-solid fa-circle-xmark cross-icon"></i> None</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Logging Policy</strong></td>
+                        <td class="comp-highlight center"><i class="fa-solid fa-circle-check check-icon"></i> Audited Zero-Log</td>
+                        <td class="center"><i class="fa-solid fa-triangle-exclamation" style="color: #f59e0b;"></i> Sells User Data</td>
+                        <td class="center"><i class="fa-solid fa-circle-xmark cross-icon"></i> Fully Exposed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Server Infrastructure</strong></td>
+                        <td class="comp-highlight center"><i class="fa-solid fa-circle-check check-icon"></i> 100% RAM-Only</td>
+                        <td class="center"><i class="fa-solid fa-circle-xmark cross-icon"></i> Hard Drive Logs</td>
+                        <td class="center">N/A</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Connection Bandwidth</strong></td>
+                        <td class="comp-highlight center"><i class="fa-solid fa-circle-check check-icon"></i> Unlimited 10Gbps+</td>
+                        <td class="center"><i class="fa-solid fa-circle-xmark cross-icon"></i> Severely Throttled</td>
+                        <td class="center">Variable</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ad & Malware Blocker</strong></td>
+                        <td class="comp-highlight center"><i class="fa-solid fa-circle-check check-icon"></i> ThreatBlock Included</td>
+                        <td class="center"><i class="fa-solid fa-circle-xmark cross-icon"></i> Injected Ads</td>
+                        <td class="center"><i class="fa-solid fa-circle-xmark cross-icon"></i> None</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Simultaneous Devices</strong></td>
+                        <td class="comp-highlight center"><i class="fa-solid fa-circle-check check-icon"></i> Up to 10 Devices</td>
+                        <td class="center">1 Device Only</td>
+                        <td class="center">N/A</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 9. FAQ ACCORDION -->
+    <section class="faq-section container" id="faq">
+        <div class="section-header fade-up">
+            <div class="badge">Frequently Asked Questions</div>
+            <h2 class="section-title">Everything You Need To Know</h2>
+            <p class="section-desc">Got questions about privacy, speeds, or setup? We've got answers.</p>
+        </div>
+
+        <div class="faq-accordion fade-up">
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>What makes FlickVPN different from other VPN providers?</span>
+                    <i class="fa-solid fa-chevron-down faq-toggle-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>FlickVPN is built from the ground up with post-quantum cryptography (Kyber-1024) and operates on 100% RAM-only server architecture. Unlike standard VPNs that store data on hard drives or collect metadata, our system physically cannot hold persistent logs.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Will using FlickVPN slow down my internet connection?</span>
+                    <i class="fa-solid fa-chevron-down faq-toggle-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>In most cases, you won't notice any speed loss. Our network relies on high-speed 10Gbps server backbones and the lightweight WireGuard® protocol. In fact, if your ISP throttles bandwidth for video streaming or gaming, FlickVPN can actually increase your connection speeds.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>What does a strict Zero-Logs policy mean?</span>
+                    <i class="fa-solid fa-chevron-down faq-toggle-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>It means we do not track, record, or store your browsing history, IP address, timestamps, bandwidth usage, or DNS queries. Our zero-logs policy has been independently verified by top international auditing firms.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Can I share my account across multiple family devices?</span>
+                    <i class="fa-solid fa-chevron-down faq-toggle-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes! A single FlickVPN account protects up to 10 active devices simultaneously, including Windows, macOS, iOS, Android, Linux, and smart TVs.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Is there a money-back guarantee?</span>
+                    <i class="fa-solid fa-chevron-down faq-toggle-icon"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Absolutely. We offer a hassle-free, 30-day money-back guarantee. If you are not completely satisfied with your security and speed, contact support for a full refund.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. FINAL CTA BANNER -->
+    <section class="cta-section container">
+        <div class="cta-box glass-panel fade-up">
+            <h2 class="cta-title">Reclaim Your <span class="gradient-text">Digital Freedom</span> Today</h2>
+            <p class="cta-subtitle">Join over 2,000,000+ individuals and companies who trust FlickVPN for uncompromising privacy.</p>
+            <a href="https://afflat3c1.com/trk/lnk/3BF8B185-C400-46C9-BA86-8558C9994629/?o=31563&c=918271&a=800075&k=C9386E67C2EEEB8BB47961E8418384D3&l=37878" class="btn btn-primary" style="padding: 1.25rem 2.75rem; font-size: 1.15rem;" target="_blank" rel="noopener">
+                <span>Secure My Connection</span>
+                <i class="fa-solid fa-lock"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- 11. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <div class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+                        <span>FlickVPN</span>
+                    </a>
+                    <p>Next-generation cyber defense, quantum-resistant encryption, and absolute online anonymity for everyone.</p>
+                </div>
+
+                <div>
+                    <div class="footer-title">Products</div>
+                    <div class="footer-links">
+                        <a href="#devices">VPN for Windows</a>
+                        <a href="#devices">VPN for Mac</a>
+                        <a href="#devices">VPN for iOS</a>
+                        <a href="#devices">VPN for Android</a>
+                        <a href="#devices">Chrome Extension</a>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="footer-title">Security & Research</div>
+                    <div class="footer-links">
+                        <a href="#security">Quantum Protocol</a>
+                        <a href="#features">Zero-Logs Audit</a>
+                        <a href="#features">ThreatBlock Tech</a>
+                        <a href="#security">Server Locations</a>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="footer-title">Company</div>
+                    <div class="footer-links">
+                        <a href="#">About Us</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Support Center</a>
+                        <a href="#">Contact Support</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 12. AFFILIATE DISCLOSURE -->
+            <div class="affiliate-disclosure">
+                <strong>Affiliate Disclosure:</strong> This website contains affiliate links. If you purchase a subscription through these links, we may receive a commission at no additional cost to you. We only recommend products tested and verified for the highest security standards.
+            </div>
+
+            <div class="footer-bottom">
+                <div>&copy; 2026 FlickVPN Security Technologies Inc. All Rights Reserved.</div>
+                <div style="display: flex; gap: 1.5rem;">
+                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top floating button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- ==========================================================================
+       JAVASCRIPT
+       ========================================================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Mouse Glow Follower Effect
+            const mouseGlow = document.getElementById('mouseGlow');
+            window.addEventListener('mousemove', (e) => {
+                mouseGlow.style.left = `${e.clientX}px`;
+                mouseGlow.style.top = `${e.clientY}px`;
+            });
+
+            // 2. Scroll Progress Bar
+            const scrollProgress = document.getElementById('scrollProgress');
+            window.addEventListener('scroll', () => {
+                const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = (window.scrollY / totalHeight) * 100;
+                scrollProgress.style.width = `${progress}%`;
+            });
+
+            // 3. Navbar Sticky Effect
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 40) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // 4. Back To Top Floating Button
+            const backToTopBtn = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 450) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // 5. Scroll Intersection Observer (Scroll Reveal)
+            const observerOptions = {
+                threshold: 0.12,
+                rootMargin: '0px 0px -40px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+            // 6. FAQ Accordion Interaction
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const questionBtn = item.querySelector('.faq-question');
+                questionBtn.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    
+                    // Close other items
+                    faqItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                    });
+
+                    // Toggle current item
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+
+            // 7. Mobile Navigation Toggle
+            const mobileToggle = document.getElementById('mobileToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            mobileToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+                const icon = mobileToggle.querySelector('i');
+                if (mobileMenu.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-xmark');
+                } else {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    const icon = mobileToggle.querySelector('i');
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
